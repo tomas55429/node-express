@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const campsiteRouter = express.Router();
 
+
 campsiteRouter.use(bodyParser.json());
 
 campsiteRouter.route('/')
@@ -24,8 +25,35 @@ campsiteRouter.route('/')
 .delete((req, res) => {
     res.end('Deleting all campsites');
 });
-//The above route method is a shortened method of the below commented out method. 
 
+
+
+
+campsiteRouter.route('/:campsiteId')
+.all((req, res, next) => {
+    res.setHeader('Content-Type', 'text/plain');
+    next();
+  })
+
+
+//get method and save as campsiteId
+.get((req, res, next) => {
+    res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`);
+})
+//posting a data of a particular item on the server not supported
+.post((req, res, next) => {
+    res.statusCode = 403;
+    res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
+})
+//Updating data of a particular item on the server
+.put((req, res, next) => {
+    res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
+    res.end(`Will update the campsite: ${req.body.name}
+        with description: ${req.body.description}`);
+})
+.delete((req, res, next) => {
+    res.end(`Deleting campsite: ${req.params.campsiteId}`);
+});
 
 
 

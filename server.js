@@ -4,8 +4,12 @@ const morgan = require('morgan');
 //morgan middleware used for server request logs
 const bodyParser = require('body-parser');
 //the bodyparser mkes changes to the server
+
+//bringing the routers from routes folder
 const campsiteRouter = require('./routes/campsiteRouter');
-//bringing the campsiteRouter from routes folder
+const promotionRouter = require('./routes/promotionRouter');
+const partnerRouter = require('./routes/partnerRouter');
+
 
 const hostname = 'localhost';
 const port = 3000;
@@ -16,33 +20,11 @@ app.use(morgan('dev'));
 //morgan is a server request logs middleware
 app.use(bodyParser.json());
 
+
+//using the routes folder and giving it a root path route
 app.use('/campsites', campsiteRouter);
-//using the routes folder and giving it a root path route of /campsites
-
-
-
-// //get method and save as campsiteId
-// app.get('/campsites/:campsiteId', (req, res) => {
-//     res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`);
-// });
-
-
-// //posting a data of a particular item on the server not supported
-// app.post('/campsites/:campsiteId', (req, res) => {
-//     res.statusCode = 403;
-//     res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
-// });
-
-// //Updating data of a particular item on the server
-// app.put('/campsites/:campsiteId', (req, res) => {
-//     res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
-//     res.end(`Will update the campsite: ${req.body.name}
-//         with description: ${req.body.description}`);
-// });
-
-// app.delete('/campsites/:campsiteId', (req, res) => {
-//     res.end(`Deleting campsite: ${req.params.campsiteId}`);
-// })
+app.use('/promotions', promotionRouter);
+app.use('/partner', partnerRouter);
 
 
 
@@ -53,7 +35,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 
-//use method can take callback function which is a middle ware function
+//use method can take callback function which is a middleware function
 //req = which is request object
 //res = is the response object
 //next = is a function
